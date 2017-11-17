@@ -619,20 +619,6 @@ describe('Aggregator: Test', () => {
         expect(res.stdout).to.contain('1 FAILED');
       });
 
-      it('should attach phantomjs-polyfill', () => {
-        const res = test
-          .setup({
-            'node_modules/phantomjs-polyfill/bind-polyfill.js': 'var a = 1;',
-            'karma.conf.js': fx.karmaWithJasmine(),
-            'src/test.spec.js': 'it("pass", function () { expect(a).toBe(1); });',
-            'package.json': fx.packageJson(),
-            'pom.xml': fx.pom()
-          })
-          .execute('test', ['--karma']);
-
-        expect(res.stdout).to.contain('Executed 1 of 1 SUCCESS');
-      });
-
       it('should load local karma config', () => {
         const res = test
           .setup({
@@ -640,21 +626,6 @@ describe('Aggregator: Test', () => {
             'a.js': '"use strict";var a = {first: 1}',
             'a1.js': 'a.second = 1',
             'src/test.spec.js': 'it("pass", function () { expect(a.first).toBe(1);expect(a.second).not.toBeDefined(); });',
-            'package.json': fx.packageJson(),
-            'pom.xml': fx.pom()
-          })
-          .execute('test', ['--karma']);
-
-        expect(res.stdout).to.contain('Executed 1 of 1 SUCCESS');
-      });
-
-      it('should load local config files first and then base config files', function () {
-        const res = test
-          .setup({
-            'node_modules/phantomjs-polyfill/bind-polyfill.js': 'a = 1;', //This is a base config file (cannot mock it)
-            'karma.conf.js': 'module.exports = {frameworks: ["jasmine"], files: ["a.js"]}',
-            'a.js': '"use strict";var a = 2; var b = 3;',
-            'src/test.spec.js': 'it("pass", function () { expect(a).toBe(1);expect(b).toBe(3); });',
             'package.json': fx.packageJson(),
             'pom.xml': fx.pom()
           })

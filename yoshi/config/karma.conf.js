@@ -7,17 +7,15 @@ const projectConfig = tryRequire(path.resolve('karma.conf.js')) || {files: []};
 
 const baseConfig = {
   basePath: process.cwd(),
-  browsers: projectConfig.browsers ? [] : ['PhantomJS'],
+  browsers: projectConfig.browsers || [],
   frameworks: ['mocha'],
   files: [
-    'node_modules/phantomjs-polyfill/bind-polyfill.js',
     'dist/specs.bundle.js'
   ],
   exclude: [],
   plugins: [
     require('karma-jasmine'),
     require('karma-mocha'),
-    require('karma-phantomjs-launcher'),
     require('karma-chrome-launcher')
   ],
   colors: true
